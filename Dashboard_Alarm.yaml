@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyCloudWatchDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: MyECSDashboard
+      DashboardBody: |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  ["AWS/ECS", "CPUUtilization", "ClusterName", "demo-app", { "period": 300, "stat": "Average" }],
+                  ["AWS/ECS", "MemoryUtilization", "ClusterName", "demo-app", { "period": 300, "stat": "Average" }]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-2"
+              }
+            }
+          ]
+        }
+
+  ECSCPUUtilizationMetric:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: ECSCPUUtilizationMetric
+      ComparisonOperator: GreaterThanThreshold
+      EvaluationPeriods: 2
+      MetricName: CPUUtilization
+      Namespace: AWS/ECS
+      Period: 300
+      Statistic: Average
+      Threshold: 80
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref MySnsTopic # Replace with your SNS topic ARN
+
+  ECSMemoryUtilizationMetric:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: ECSMemoryUtilizationMetric
+      ComparisonOperator: GreaterThanThreshold
+      EvaluationPeriods: 2
+      MetricName: MemoryUtilization
+      Namespace: AWS/ECS
+      Period: 300
+      Statistic: Average
+      Threshold: 80
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref MySnsTopic # Replace with your SNS topic ARN
+
+  MySnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: ecs-metrics
+      TopicName: ecs-metrics
+
