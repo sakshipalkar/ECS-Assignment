@@ -40,7 +40,7 @@ Resources:
       Threshold: 80
       ActionsEnabled: true
       AlarmActions:
-        - !Ref MySnsTopic # Replace with your SNS topic ARN
+        - !Ref MySnsTopic
 
   ECSMemoryUtilizationMetric:
     Type: AWS::CloudWatch::Alarm
@@ -55,7 +55,7 @@ Resources:
       Threshold: 80
       ActionsEnabled: true
       AlarmActions:
-        - !Ref MySnsTopic # Replace with your SNS topic ARN
+        - !Ref MySnsTopic 
 
   MySnsTopic:
     Type: AWS::SNS::Topic
