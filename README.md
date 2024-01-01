@@ -16,10 +16,18 @@
 
 9.docker push public.ecr.aws/w0f5g4k6/deploy:v7
 
-10.Now create ECS Cluster by using cluster.yaml, it will create cluster in your AWS ECS
+10.Now create ECS Cluster and load balancer by using loadbalancer.yaml, it will create ECS Cluster as well as load balancer in your AWS cloud 
 
-11.create IAM Role to create taskdefination by using taskexecution.yaml
+11.create IAM Role to create ECS Task execution role by using Taskexecution.yaml
 
 12.create VPC and subnets using vpc.yaml
 
-13.create taskdefination under which you can run your container, using tase.yaml
+13.create taskdefination and service through which you can run your container, using ECS_Service.yaml
+
+14.To Monitore CPU & Memory Utilization set alaram for the same by using Dashboard_Alarm.yaml
+
+15.To get Notification for the alarm SNS topic need to be subscribed.
+
+16.To Access or to check web application running or not use public IP address of the task as above web application expose on port 8000.
+
+
